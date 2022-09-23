@@ -35,9 +35,16 @@ public class AlunoController {
         return alunoService.buscaPorId(id);
     }
 
-       	/* Até as 20:30
-	       Criar um endpoint(url) pra alterar um dado @Path
-	       Criar um endpoint(url) pra deletar um aluno @Delete
-	    */
+    @PatchMapping("/{id}/{nome}")
+    @ResponseStatus(HttpStatus.PARTIAL_CONTENT)
+    public Aluno altera(@PathVariable(value = "id") Long id,
+                        @PathVariable(value = "nome") String nome) throws Exception {
+        return alunoService.alterarAluno(id, nome);
+    }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleta(@PathVariable(value = "id") Long id) throws Exception {
+        return alunoService.delete(id);
+    }
 }

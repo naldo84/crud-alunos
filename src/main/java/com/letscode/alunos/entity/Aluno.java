@@ -5,6 +5,15 @@ import javax.persistence.*;
 @Entity // Indentifico que sera minha entidade
 @Table(name = "alunos") // nome da minha tabela
 public class Aluno {
+
+    public Aluno(Long id, String nome, Long idade, String documento, String endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.idade = idade;
+        this.documento = documento;
+        this.endereco = endereco;
+    }
+
     @Id //chave da tabela
     @GeneratedValue(strategy = GenerationType.AUTO) // gera randomicamente
     private Long id;

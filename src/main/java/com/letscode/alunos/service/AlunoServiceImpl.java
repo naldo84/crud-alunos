@@ -22,7 +22,6 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno buscaPorId(Long id) throws Exception {
-//        return alunoRepository.findById(id).orElse(null);
         var aluno =  alunoRepository.findById(id);
 
         if (aluno.isEmpty()) {
@@ -40,7 +39,7 @@ public class AlunoServiceImpl implements AlunoService {
     public Aluno alterarAluno(Long id, String nome) throws Exception {
         Aluno aluno = buscaPorId(id);
         aluno.setNome(nome);
-
+        alunoRepository.save(aluno);
         return aluno;
     }
 
