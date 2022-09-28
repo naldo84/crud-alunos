@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * O Spring percebe que temos a classe anotada com @Service, e irá instanciar essa classe e registrá-la em seu ApplicationContext
+ * tornando nossa classe um Bean Spring-managed.
+ */
 @Service
 public class AlunoServiceImpl implements AlunoService {
 
@@ -27,6 +31,7 @@ public class AlunoServiceImpl implements AlunoService {
         if (aluno.isEmpty()) {
             throw new Exception("Aluno não foi encontrado");
         }
+
         return aluno.get();
     }
 

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,14 +103,67 @@ class AlunoServiceImplTest {
 
         var resultado = alunoService.buscaTodos();
 
+        // assertAll vs any assertEquals
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, resultado.size()),
                 () -> Assertions.assertEquals(alunos, resultado),
-                () -> Assertions.assertEquals("Aluno Teste", resultado.get(0).getNome())
+                () -> Assertions.assertEquals(1, resultado.size()), //falha
+                () -> Assertions.assertEquals("Aluno Teste", resultado.get(0).getNome()) //terceiro
         );
-//        Assertions.assertEquals(1, resultado.size());
-//        Assertions.assertEquals(alunos, resultado);
-//        Assertions.assertEquals("Aluno Teste", resultado.get(0).getNome());
+//        Assertions.assertEquals(alunos, resultado); //faz o primeiro
+//        Assertions.assertEquals(2, resultado.size()); // falha
+//        Assertions.assertEquals("Aluno Teste", resultado.get(0).getNome()); // nunca executa
+    }
+
+    @Test
+    @DisplayName("Deve deletar um aluno")
+    void deveDeletarUmAluno() throws Exception {
+
+//        Mockito.doReturn(aluno).when(alunoRepository.findById(anyLong()));
+
+//        BDDMockito.given(alunoRepository.findById(anyLong())).willReturn(Optional.of(aluno));
+//        BDDMockito.then(alunoRepository.findById(any())).should().get()
+
+        Mockito.when(alunoRepository.findById(anyLong()))
+                .thenReturn(Optional.of(aluno));
+
+        Mockito.doNothing().when(alunoRepository).deleteById(anyLong());
+
+        var resultado = alunoService.delete(aluno.getId());
+
+        Assertions.assertEquals("Aluno deletado", resultado);
+    }
+
+    @Test
+    @DisplayName("Deve alterar o nome do aluno")
+    void deveAlterarONomeDoAluno() throws Exception {
+
+        Mockito.when(alunoRepository.findById(anyLong()))
+                .thenReturn(Optional.of(aluno));
+
+        Mockito.when(alunoRepository.save(any())).thenReturn(aluno);
+
+        var resultado = alunoService.alterarAluno(aluno.getId(), "Superman");
+
+        Assertions.assertEquals("Superman", resultado.getNome());
+    }
+
+
+    @Test
+    @DisplayName("Deve retornar excessao quando aluno nao for encontrado para delecao")
+    void deveRetornarExcessaoQuandoAlunoNaoForEncontradoParaDelecao() {;
+        Exception exception = assertThrows(Exception.class,
+                () -> alunoService.delete(aluno.getId()));
+
+        Assertions.assertEquals("Aluno não foi encontrado", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Deve retornar excessao quando aluno nao for encontrado para alteracao")
+    void deveRetornarExcessaoQuandoAlunoNaoForEncontradoParaAlteracao() {
+        Exception exception = assertThrows(Exception.class,
+                () -> alunoService.alterarAluno(aluno.getId(), "Batman"));
+
+        Assertions.assertEquals("Aluno não foi encontrado", exception.getMessage());
     }
 
 

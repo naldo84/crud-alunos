@@ -1,6 +1,9 @@
 package com.letscode.alunos.entity;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 
 @Entity // Indentifico que sera minha entidade
 @Table(name = "alunos") // nome da minha tabela
@@ -17,6 +20,8 @@ public class Aluno {
     @Id //chave da tabela
     @GeneratedValue(strategy = GenerationType.AUTO) // gera randomicamente
     private Long id;
+
+    @NotNull(message = "Campo nome é obrigatorio")
     private String nome;
     private Long idade;
     private String documento;

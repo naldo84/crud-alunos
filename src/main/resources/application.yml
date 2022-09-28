@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    password: ''
+    url: jdbc:h2:mem:alunos
+    username: sa
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      ddl-auto: validate
+
+
+resilience4j.ratelimiter:
+    instances:
+      alunoService:
+        limitForPeriod: 1
+        limitRefreshPeriod: 10s
+        timeoutDuration: 5s
