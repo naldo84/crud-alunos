@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "alunos") // nome da minha tabela
 public class Aluno {
 
+    public Aluno() {}
     public Aluno(Long id, String nome, Long idade, String documento, String endereco) {
         this.id = id;
         this.nome = nome;

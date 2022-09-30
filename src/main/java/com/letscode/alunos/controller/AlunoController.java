@@ -50,4 +50,24 @@ public class AlunoController {
     public String deleta(@PathVariable(value = "id") Long id) throws Exception {
         return alunoService.delete(id);
     }
+
+    @GetMapping("/nomes")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Aluno> buscaPorNome(@RequestParam String nome) {
+        return alunoService.buscaPorNome(nome);
+    }
+
+    @GetMapping("/idades")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Aluno> buscaPorIdade(@RequestParam Long idade) {
+        return alunoService.buscaPorIdade(idade);
+    }
+
+    @GetMapping("/fiters")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Aluno> filterAluno(@RequestParam(required = false) String nome,
+                                   @RequestParam(required = false) Long idade,
+                                   @RequestParam(required = false) String documento){
+        return alunoService.filter(nome, idade, documento);
+    }
 }

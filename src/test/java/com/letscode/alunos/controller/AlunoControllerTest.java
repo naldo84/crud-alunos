@@ -1,9 +1,7 @@
 package com.letscode.alunos.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letscode.alunos.entity.Aluno;
-import com.letscode.alunos.model.ErrorTeste;
 import com.letscode.alunos.service.AlunoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -193,14 +190,17 @@ class AlunoControllerTest {
 //        Optional<Aluno> aluno1 = Optional.of(aluno);
         when(alunoService.buscaPorId(anyLong())).thenReturn(aluno);
 
-        //Retorna uma lista vazia
-        mockMvc.perform(get("/alunos/{id}", aluno.getId())
+        MvcResult result = mockMvc.perform(get("/alunos/{id}", aluno.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-//                .andReturn();
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Aluno aluno1 = objectMapper.readValue(result.getResponse().getContentAsString(), Aluno.class);
+
+        Assertions.assertEquals("Jonathan2", aluno1.getNome());
     }
 
-        
+
 
 
 

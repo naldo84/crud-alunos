@@ -5,6 +5,8 @@ import com.letscode.alunos.repository.AlunoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * O Spring percebe que temos a classe anotada com @Service, e irá instanciar essa classe e registrá-la em seu ApplicationContext
@@ -52,5 +54,34 @@ public class AlunoServiceImpl implements AlunoService {
     public String delete(Long id) throws Exception {
         alunoRepository.deleteById(buscaPorId(id).getId());
         return "Aluno deletado";
+    }
+
+    @Override
+    public List<Aluno> buscaPorNome(String nome) {
+        return alunoRepository.findByNome(nome);
+    }
+
+    @Override
+    public List<Aluno> buscaPorIdade(Long idade) {
+        return alunoRepository.findAllByIdade(idade);
+    }
+
+    @Override
+    public List<Aluno> filter(String nome, Long idade, String documento) {
+        if (nome != null && idade == null && documento == null) {
+            return alunoRepository.findByNome(nome);
+        }
+        if (nome == null && idade != null && documento == null) {
+            return alunoRepository.findAllByIdade(idade);
+        }
+
+        Optional<Aluno> aluno = alunoRepository
+                .findByNomeAndIdadeAndDocumento(nome, idade, documento);
+
+        if (aluno.isEmpty()) {
+            return List.of();
+        }
+
+        return List.of(aluno.get());
     }
 }

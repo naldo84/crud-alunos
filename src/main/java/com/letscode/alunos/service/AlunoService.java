@@ -10,4 +10,10 @@ public interface AlunoService {
     List<Aluno> buscaTodos();
     Aluno alterarAluno(Long id, String nome) throws Exception;
     String delete(Long id) throws Exception;
+
+    List<Aluno> buscaPorNome(String nome);
+
+    List<Aluno> buscaPorIdade(Long idade);
+
+    List<Aluno> filter(String nome, Long idade, String documento);
 }

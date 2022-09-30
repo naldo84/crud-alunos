@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class AlunoServiceImplTest {
@@ -164,6 +163,23 @@ class AlunoServiceImplTest {
                 () -> alunoService.alterarAluno(aluno.getId(), "Batman"));
 
         Assertions.assertEquals("Aluno não foi encontrado", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Deve testar a busca por nome")
+    void deveTestarABuscaPorNome() {
+        Mockito.when(alunoRepository.findByNome(anyString())).thenReturn(List.of(aluno));
+
+        List<Aluno> alunos = alunoService.buscaPorNome(aluno.getNome());
+        Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome());
+    }
+
+    @Test
+    @DisplayName("Deve buscar o aluno somento pelo nome")
+    void deveBuscarOAlunoSomentoPeloNome() {
+        Mockito.when(alunoRepository.findByNome(anyString())).thenReturn(List.of(aluno));
+        List<Aluno> alunos = alunoService.filter(aluno.getNome(), null, null);
+        Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome());
     }
 
 
