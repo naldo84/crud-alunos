@@ -135,12 +135,6 @@ class AlunoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON) // content type
                 .content(objectMapper.writeValueAsString(aluno)) //body request
         ).andExpect(status().is4xxClientError()).andReturn();//erro
-
-//        var body = result.getResponse().getContentAsString();
-
-//        ErrorTeste errorTeste = objectMapper.readValue(body, ErrorTeste.class);
-//
-//        Assertions.assertEquals(400L, errorTeste.getStatus());
     }
 
 
@@ -199,33 +193,4 @@ class AlunoControllerTest {
 
         Assertions.assertEquals("Jonathan2", aluno1.getNome());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    @Test
-void whenValidInput_thenMapsToBusinessModel() throws Exception {
-  UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
-  mockMvc.perform(...);
-
-//ArgumentCaptor para capturar o Aluno objeto que foi passado para o metodo salvar e afirmar que ele contém os valores esperados.
-  ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-  verify(registerUseCase, times(1)).registerUser(userCaptor.capture(), eq(true));
-  assertThat(userCaptor.getValue().getName()).isEqualTo("Zaphod");
-  assertThat(userCaptor.getValue().getEmail()).isEqualTo("zaphod@galaxy.net");
-}
-     */
 }

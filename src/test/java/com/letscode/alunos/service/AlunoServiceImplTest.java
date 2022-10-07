@@ -182,5 +182,37 @@ class AlunoServiceImplTest {
         Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome());
     }
 
+    @Test
+    @DisplayName("Deve testar a busca pela idade")
+    void deveTestarABucaPelaIdade(){
+        Mockito.when(alunoRepository.findAllByIdade(anyLong())).thenReturn(List.of(aluno));
+        List<Aluno> alunos = alunoService.buscaPorIdade(aluno.getIdade());
+        Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome());
+    }
 
+    @Test
+    @DisplayName("Deve testar uma lista de alunos pela idade")
+    void deveTestarUmaListaDeAlunosPelaIdade(){
+        Mockito.when(alunoRepository.findAllByIdade(anyLong())).thenReturn(List.of(aluno));
+        List<Aluno>alunos = alunoService.buscaPorIdade(aluno.getIdade());
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome()),
+                () -> Assertions.assertEquals( aluno,alunos.get(0))
+        );
+    }
+
+    @Test
+    @DisplayName("DeveBuscarAlunoInexistente")
+    void deveBuscarAlunoInexistente(){
+        List<Aluno> alunos = alunoService.filter(any(), anyLong(), anyString());
+        Assertions.assertEquals(0, alunos.size());
+    }
+
+    @Test
+    @DisplayName("Deve buscar aluno com todos os dados preenchidos")
+    void deveBuscarAlunoComTodosOsDadospreenchidos(){
+        Mockito.when(alunoRepository.findByNomeAndIdadeAndDocumento(any(), anyLong(), anyString())).thenReturn(Optional.of(aluno));
+        List<Aluno> alunos = alunoService.filter(aluno.getNome(), aluno.getIdade(), aluno.getDocumento());
+        Assertions.assertEquals(aluno, alunos.get(0));
+    }
 }
