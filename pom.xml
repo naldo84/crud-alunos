@@ -69,6 +69,7 @@
 					<excludes>
 						<exclude>com/letscode/alunos/AlunosApplication.java</exclude>
 						<exclude>com/letscode/alunos/model/*</exclude>
+						<exclude>com/letscode/alunos/entity/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

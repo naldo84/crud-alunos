@@ -7,13 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +95,7 @@ class AlunoServiceImplTest {
     @DisplayName("Deve retornar uma lista de alunos")
     void deveRetornarUmaListaDeAlunos() {
         //Mockar
-        List<Aluno> alunos = Arrays.asList(aluno);
+        List<Aluno> alunos = Collections.singletonList(aluno);
 
         Mockito.when(alunoRepository.findAll()).thenReturn(alunos);
 
@@ -149,7 +148,7 @@ class AlunoServiceImplTest {
 
     @Test
     @DisplayName("Deve retornar excessao quando aluno nao for encontrado para delecao")
-    void deveRetornarExcessaoQuandoAlunoNaoForEncontradoParaDelecao() {;
+    void deveRetornarExcessaoQuandoAlunoNaoForEncontradoParaDelecao() {
         Exception exception = assertThrows(Exception.class,
                 () -> alunoService.delete(aluno.getId()));
 
@@ -186,7 +185,7 @@ class AlunoServiceImplTest {
     @DisplayName("Deve testar a busca pela idade")
     void deveTestarABucaPelaIdade(){
         Mockito.when(alunoRepository.findAllByIdade(anyLong())).thenReturn(List.of(aluno));
-        List<Aluno> alunos = alunoService.buscaPorIdade(aluno.getIdade());
+        List<Aluno> alunos = alunoService.filter(null, aluno.getIdade(), null);
         Assertions.assertEquals("Aluno Teste", alunos.get(0).getNome());
     }
 
